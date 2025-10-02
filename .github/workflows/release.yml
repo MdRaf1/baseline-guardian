@@ -1,0 +1,77 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify dist folder
+        run: |
+          if [ ! -f "dist/index.js" ]; then
+            echo "Error: dist/index.js not found"
+            exit 1
+          fi
+          echo "✓ dist/index.js exists"
+
+      - name: Extract version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ## What's Changed
+            
+            See the [README](https://github.com/${{ github.repository }}/blob/${{ steps.get_version.outputs.VERSION }}/README.md) for usage instructions.
+            
+            ## Installation
+            
+            ```yaml
+            - name: Run Baseline Guardian
+              uses: ${{ github.repository }}@${{ steps.get_version.outputs.VERSION }}
+              with:
+                token: ${{ secrets.GITHUB_TOKEN }}
+            ```
+            
+            **Full Changelog**: https://github.com/${{ github.repository }}/commits/${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update major version tag
+        run: |
+          TAG=${{ steps.get_version.outputs.VERSION }}
+          MAJOR_VERSION=$(echo $TAG | cut -d. -f1)
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -fa $MAJOR_VERSION -m "Update $MAJOR_VERSION to $TAG"
+          git push origin $MAJOR_VERSION --force

@@ -1,13 +1,14 @@
-name: Baseline Guardian
-description: Enforce modern web standards before they hit production.
-author: Md. Rafi
+name: 'Baseline Guardian'
+description: 'Enforce modern web standards in your pull requests. Automatically scans CSS files for browser compatibility issues using the official web-features baseline data.'
+author: 'Md. Rafi'
+
 branding:
   icon: 'shield'
   color: 'gray-dark'
 
 inputs:
   token:
-    description: 'The GITHUB_TOKEN to use for API calls.'
+    description: 'The GITHUB_TOKEN to use for API calls. Required for commenting on pull requests.'
     required: true
 
 runs:

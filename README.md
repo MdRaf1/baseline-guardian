@@ -1,5 +1,9 @@
 # Baseline Guardian
 
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Baseline%20Guardian-blue.svg?colorA=24292e&colorB=0366d6&style=flat&longCache=true&logo=github)](https://github.com/marketplace/actions/baseline-guardian)
+[![CI](https://github.com/MdRaf1/baseline-guardian/actions/workflows/ci.yml/badge.svg)](https://github.com/MdRaf1/baseline-guardian/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **Enforce modern web standards before they hit production.**
 
 <!-- markdownlint-disable-next-line MD033 -->
@@ -18,6 +22,10 @@ Linters and IDE extensions do a decent job of flagging cutting-edge web features
 2. **Checks Baseline Data:** Cross-references all CSS properties found against the official `web-features` dataset to determine their Baseline status (`widely available`, `newly available`, or `limited availability`).
 3. **Enforces Team Policy:** Validates these statuses against a simple `.baseline-guardian.yml` policy file located in the root of your repository.
 4. **Reports in the PR:** If any violations are found, it posts a clear, actionable comment directly on the pull request, listing the non-compliant features with direct links to their MDN documentation.
+
+## Installation
+
+Baseline Guardian is available in the [GitHub Actions Marketplace](https://github.com/marketplace/actions/baseline-guardian). Follow the quick start guide below to add it to your repository.
 
 ## Quick Start
 
