@@ -1,0 +1,15 @@
+name: Baseline Guardian
+description: Enforce modern web standards before they hit production.
+author: Md. Rafi
+branding:
+  icon: 'shield'
+  color: 'gray-dark'
+
+inputs:
+  token:
+    description: 'The GITHUB_TOKEN to use for API calls.'
+    required: true
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
